@@ -18,12 +18,26 @@ require('dotenv').config();
     const targetPage = 'https://cafe.naver.com/ArticleList.nhn?search.clubid=29118241&search.boardtype=L'; 
     // await page.goto(targetPage);
     
-    const targetPageTest = 'https://cafe.naver.com/npmpptr';
+    const targetPageTest = 'https://cafe.naver.com/ArticleList.nhn?search.clubid=30319791&search.boardtype=L';
     const targetPostTest = 'https://cafe.naver.com/campingkan/65158';
-    await page.goto(targetPostTest);
-
+    await page.goto(targetPageTest);
     // Screenshot
     await page.screenshot({path: 'target.png', fullPage:true});
+    const data = await page.evaluate(() => {
+        const tds = Array.from(document.querySelectorAll('table tr td'))
+        return tds.map(td => {
+            console.log(td)
+            td.innerText
+        })
+    })
+    // const data = await page.$$eval('table tr td', tds => tds.map((td) => {
+    //     return td.innerText;
+    // }));
+
+    console.log(data);
+    console.log(data[0]);
+
+    
 
     // const element = await page.$('');
 
