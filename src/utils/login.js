@@ -2,10 +2,17 @@ const puppeteer = require('puppeteer');
 require('dotenv').config();
 
 const loginAndGoToPage = async (nid, npw, target) => {
-    const browser = await puppeteer.launch({headless: false, defaultViewport: {
-        width: 500,
-        height: 600
-    }});
+    const browser = await puppeteer.launch({
+        headless: false, 
+        defaultViewport: {
+            width: 500,
+            height: 600
+        },
+        args: [
+            '--no-sandbox',
+            '--disable-setuid-sandbox',
+        ],
+    });
     const page = await browser.newPage();
     await page.goto('https://nid.naver.com/nidlogin.login');
     await page.evaluate((id, pw) => {
