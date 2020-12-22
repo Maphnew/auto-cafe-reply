@@ -11,7 +11,7 @@ const loginAndGoToPage = async (nid, npw, target) => {
         args: [
             '--no-sandbox',
             '--disable-setuid-sandbox'
-        ],
+        ]
     });
     const page = await browser.newPage();
     await page.goto('https://nid.naver.com/nidlogin.login');
