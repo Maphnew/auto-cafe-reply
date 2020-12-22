@@ -15,7 +15,7 @@ const getTheTent = async({page, targetPageTest, browser}) => {
             return preloadHref
         });
         
-        while(i < 100) {
+        while(i < 200) {
             await page.goto(targetPageTest);
             await page.waitForSelector(".list_area > li > a");
             let newPost = await page.$$(".list_area > li").then((newPost) => {
@@ -30,7 +30,17 @@ const getTheTent = async({page, targetPageTest, browser}) => {
 
             if(preloadHref !== newHref) {
                 await newPost[0].click();
-                await page.screenshot({ path: 'success.png' })
+                await page.waitForSelector(".top_area > h3 > a");
+                const writeButton = await page.$$(".top_area > h3 > a");
+                await writeButton[0].click();
+                await page.waitForSelector(".CommentWriteArea__inbox > textarea");
+                const textarea = await page.$$(".CommentWriteArea__inbox > textarea");
+                await textarea[0].click();
+                await page.focus('.textarea');
+                await page.keyboard.type('Can be a first reply?');
+                const register = await page.$$(".CommentWriteUpload__btn_register");
+                await register[0].click();
+                await page.screenshot({path: 'reply!.png'});
                 await browser.close();
             };
 
