@@ -13,6 +13,11 @@
         <p>🎈🎈 Go Get the tent! 🎈🎈</p>
 
         <form method="POST" action="/submit-form" novalidate>
+            <input type="radio" id="headless" name="headless" value="true" checked>
+            <span class=".label">No Browser</span>
+            <input type="radio" id="head" name="headless" value="false">
+            <span class=".label">Open Browser</span>
+
             <label for="id">Naver ID</label>
             <input type="text" id="id" name="userid"placeholder="Naver ID">
             <label for="pw">Naver Password</label>

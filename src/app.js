@@ -35,7 +35,8 @@ app.post('/submit-form', async(req, res) => {
     const npw = req.body.userpw;
     const targetPage = req.body.targetPage;
     const reply = req.body.reply;
-    const pageInfo = await loginAndGoToPage(nid, npw, targetPage);
+    const headless = req.body.headless === 'true' ? true : false;
+    const pageInfo = await loginAndGoToPage(nid, npw, targetPage, headless);
     await getTheTent(pageInfo, reply).then(() => {
         res.redirect('/');
     });

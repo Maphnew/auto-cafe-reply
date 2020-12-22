@@ -649,3 +649,13 @@ label {
     display: flex;
     flex-direction: column;
 }
+
+input[type="radio"] {
+    display: inline;
+    width: 20px;
+}
+
+/* .label { 
+    display: flex;
+    flex-direction: row;
+} */
