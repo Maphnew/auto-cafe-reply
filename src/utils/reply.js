@@ -1,11 +1,11 @@
-const getTheTent = async({page, targetPage, browser}) => {
+const getTheTent = async({page, targetPage, browser}, reply) => {
     let i = 0;
 
     try {
         await page.goto(targetPage);
         await page.waitForSelector(".list_area > li > a");
         const preloadHref = await page.$eval('.list_area > li > a', el => el.href).then((preloadHref) => {
-            console.log(preloadHref)
+            // console.log(preloadHref)
             return preloadHref
         });
         
@@ -30,7 +30,7 @@ const getTheTent = async({page, targetPage, browser}) => {
                 const textarea = await page.$$(".CommentWriteArea__inbox > textarea");
                 await textarea[0].click();
                 await page.focus('.textarea');
-                await page.keyboard.type('캠핑가자!');
+                await page.keyboard.type(reply);
                 const register = await page.$$(".CommentWriteUpload__btn_register");
                 await register[0].click();
                 await page.screenshot({path: 'reply.png'});

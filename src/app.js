@@ -34,8 +34,9 @@ app.post('/submit-form', async(req, res) => {
     const nid = req.body.userid;
     const npw = req.body.userpw;
     const targetPage = req.body.targetPage;
+    const reply = req.body.reply;
     const pageInfo = await loginAndGoToPage(nid, npw, targetPage);
-    await getTheTent(pageInfo).then(() => {
+    await getTheTent(pageInfo, reply).then(() => {
         res.redirect('/');
     });
 
