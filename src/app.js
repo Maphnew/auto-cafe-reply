@@ -1,77 +1,59 @@
+const path = require('path');
+const express = require('express');
+const bodyParser = require('body-parser');
+const hbs = require('hbs');
 const loginAndGoToPage = require('./utils/login');
+const getTheTent = require('./utils/reply');
 
-const getTheTent = async({page, targetPageTest, browser}) => {
-    let i = 0;
+const app = express();
+const port = process.env.PORT || 3000;
 
-    try {
-        await page.goto(targetPageTest);
-        await page.waitForSelector(".list_area > li > a");
-        let lastPost = await page.$$(".list_area > li").then((lastPost) => {
-            // console.log('lastPost:', lastPost[0])
-            return lastPost
-        });
-        const preloadHref = await page.$eval('.list_area > li > a', el => el.href).then((preloadHref) => {
-            console.log(preloadHref)
-            return preloadHref
-        });
-        
-        while(i < 200) {
-            await page.goto(targetPageTest);
-            await page.waitForSelector(".list_area > li > a");
-            let newPost = await page.$$(".list_area > li").then((newPost) => {
-                // console.log('newPost:', newPost[0])
-                return newPost
-            });
-            const newHref = await page.$eval('.list_area > li > a', el => el.href).then((newHref) => {
-                console.log(newHref)
-                return newHref
-            });
-            
+// Define paths for Express config
+const publicDirectoryPath = path.join(__dirname, '../public');
+const viewsPath = path.join(__dirname, '../templates/views');
+const partialsPath = path.join(__dirname, '../templates/partials');
 
-            if(preloadHref !== newHref) {
-                await newPost[0].click();
-                await page.waitForSelector(".top_area > h3 > a");
-                const writeButton = await page.$$(".top_area > h3 > a");
-                await writeButton[0].click();
-                await page.waitForSelector(".CommentWriteArea__inbox > textarea");
-                const textarea = await page.$$(".CommentWriteArea__inbox > textarea");
-                await textarea[0].click();
-                await page.focus('.textarea');
-                await page.keyboard.type('Can be a first reply?');
-                const register = await page.$$(".CommentWriteUpload__btn_register");
-                await register[0].click();
-                await page.screenshot({path: 'reply!.png'});
-                await browser.close();
-            };
+// Setup handlebars engine and views location
+app.set('view engine', 'hbs');
+app.set('views', viewsPath);
+hbs.registerPartials(partialsPath);
 
-            console.log(i);
-            i++;   
-        };   
-      
-    } catch (e) {
-        console.log(e)
-    };
+// Setup static directory to serve
+app.use(express.static(publicDirectoryPath));
+app.use(bodyParser.json());
+app.use(bodyParser.urlencoded({extended:true}));
 
-        
-    await page.$$(".list_area > li").then((list) => {
-        return list[0]
-    }).then(async(li) => {
-        await li.click();
-        await page.screenshot({path: 'screenshot.png'});
+
+app.get('', async (req, res) => {
+    res.render('index', {
+        title: 'Home'
     });
-};
+});
 
-(async () => {
-    await loginAndGoToPage().then(async(page) => {
-        await getTheTent(page);
+app.post('/submit-form', async(req, res) => {
+    const nid = req.body.userid;
+    const npw = req.body.userpw;
+    const targetPage = req.body.targetPage;
+    const pageInfo = await loginAndGoToPage(nid, npw, targetPage);
+    await getTheTent(pageInfo).then(() => {
+        res.redirect('/');
     });
-})();
 
+});
 
-// function timeout(ms) {
-//     return new Promise(resolve => setTimeout(resolve, ms));
-// }
-// async function sleep(fn, ...args) {
-//     await timeout(500);
-//     return fn(...args);
-// }
+app.get('/help', (req, res) => {
+    res.render('help', {
+        title: 'Help'
+    });
+});
+
+app.get('*', (req, res) => {
+    res.render('404', {
+        title: 'Error',
+        errorMessage: 'Page not found.'
+    });
+});
+
+app.listen(port, () => {
+    console.log('Server is up on port '+port+'. http://localhost:'+port)
+});

@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+
+<html>
+
+<head>
+    <title>🎃Welcome</title>
+    <link rel="icon" href="/img/motor.jpg">
+    <link rel="stylesheet" href="/css/styles.css">
+</head>
+<body>
+    <div class="main-content">
+        {{>header}}
+        <p>🎈🎈 Go Get the tent! 🎈🎈</p>
+
+        <form method="POST" action="/submit-form" novalidate>
+            <label for="id">Naver ID</label>
+            <input type="text" id="id" name="userid"placeholder="Naver ID">
+            <label for="pw">Naver Password</label>
+            <input type="password" id="pw" name="userpw" placeholder="Naver Password">
+            <label for="target">Target Page</label>
+            <input type="text" id="target" name="targetPage" placeholder="https://m.cafe.naver.com/CafeMemberProfile.nhn?cafeId=29118241&memberId=khan2831" value="https://m.cafe.naver.com/CafeMemberProfile.nhn?cafeId=30319791&memberId=jinssakura">
+
+            <label for="realTarget">https://m.cafe.naver.com/CafeMemberProfile.nhn?cafeId=29118241&memberId=khan2831</label>
+            
+            <button style="margin-top: 10px;">GO GET THE TENT!</button>
+        </form>
+        <p id="message-1">{{message}}</p>
+        <p id="message-2"></p>
+        
+    </div>    
+    {{>footer}}
+</body>
+
+</html>
