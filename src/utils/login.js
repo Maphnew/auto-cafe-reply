@@ -4,10 +4,10 @@ require('dotenv').config();
 const loginAndGoToPage = async (nid, npw, target, headless) => {
     const browser = await puppeteer.launch({
         headless, 
-        // defaultViewport: {
-        //     width: 500,
-        //     height: 600
-        // },
+        defaultViewport: {
+            width: 500,
+            height: 600
+        },
         args: [
             '--no-sandbox',
             '--disable-setuid-sandbox'
