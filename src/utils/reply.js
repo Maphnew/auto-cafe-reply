@@ -1,22 +1,24 @@
 const getTheTent = async({page, targetPage, browser}, reply) => {
     let i = 0;
-
+    console.log('getTheTent')
     try {
-        await page.goto(targetPage);
-        await page.waitForSelector(".list_area > li > a");
-        const preloadHref = await page.$eval('.list_area > li > a', el => el.href).then((preloadHref) => {
+        await page.goto(targetPage, {waitUntil: 'load', timeout: 0});
+        // console.log('goto')
+        await page.waitForSelector(".list_area > li > div > a");
+        // console.log('waitForSelector')
+        const preloadHref = await page.$eval('.list_area > li > div > a', el => el.href).then((preloadHref) => {
             // console.log(preloadHref)
             return preloadHref
         });
         
         while(true) {
-            await page.goto(targetPage);
-            await page.waitForSelector(".list_area > li > a");
+            await page.goto(targetPage, {waitUntil: 'load', timeout: 0});
+            await page.waitForSelector(".list_area > li > div > a");
             let newPost = await page.$$(".list_area > li").then((newPost) => {
                 // console.log('newPost:', newPost[0])
                 return newPost
             });
-            const newHref = await page.$eval('.list_area > li > a', el => el.href).then((newHref) => {
+            const newHref = await page.$eval('.list_area > li > div > a', el => el.href).then((newHref) => {
                 return newHref
             });
             
@@ -50,9 +52,3 @@ const getTheTent = async({page, targetPage, browser}, reply) => {
 };
 
 module.exports = getTheTent;
-
-// (async () => {
-//     await loginAndGoToPage().then(async(page) => {
-//         await getTheTent(page);
-//     });
-// })();

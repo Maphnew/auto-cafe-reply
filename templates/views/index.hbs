@@ -7,34 +7,36 @@
     <link rel="icon" href="/img/motor.jpg">
     <link rel="stylesheet" href="/css/styles.css">
 </head>
+
 <body>
     <div class="main-content">
         {{>header}}
         <p>🎈🎈 Go Get the tent! 🎈🎈</p>
 
         <form method="POST" action="/submit-form" novalidate>
-            <input type="radio" id="headless" name="headless" value="true" checked>
+            <input type="radio" id="headless" name="headless" value="true">
             <span class=".label">No Browser</span>
-            <input type="radio" id="head" name="headless" value="false">
+            <input type="radio" id="head" name="headless" value="false" checked>
             <span class=".label">Open Browser</span>
 
             <label for="id">Naver ID</label>
-            <input type="text" id="id" name="userid"placeholder="Naver ID">
+            <input type="text" id="id" name="userid" placeholder="Naver ID" value="aresone85">
             <label for="pw">Naver Password</label>
             <input type="password" id="pw" name="userpw" placeholder="Naver Password">
             <label for="target">Target Page</label>
-            <input type="text" id="target" name="targetPage" placeholder="https://m.cafe.naver.com/CafeMemberProfile.nhn?cafeId=29118241&memberId=khan2831" value="https://m.cafe.naver.com/CafeMemberProfile.nhn?cafeId=30319791&memberId=jinssakura">
+            <input type="text" id="target" name="targetPage" placeholder="https://m.cafe.naver.com/hent1234"
+                value="https://m.cafe.naver.com/hent1234">
 
-            <label for="realTarget">https://m.cafe.naver.com/CafeMemberProfile.nhn?cafeId=29118241&memberId=khan2831</label>
+            <label for="realTarget">https://m.cafe.naver.com/campingkan</label>
 
             <label for="reply">Comment</label>
-            <input type="text" id="reply" name="reply" placeholder="댓글 내용">
+            <input type="text" id="reply" name="reply" placeholder="댓글 내용" value="댓글!">
             <button style="margin-top: 10px;">GO GET THE TENT!</button>
         </form>
         <p id="message-1">{{message}}</p>
         <p id="message-2"></p>
-        
-    </div>    
+
+    </div>
     {{>footer}}
 </body>
 
